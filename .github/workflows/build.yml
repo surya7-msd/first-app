@@ -1,0 +1,33 @@
+name: SonarCloud
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24'
+
+      - name: Run tests
+        run: go test ./... -coverprofile=coverage.out
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.projectKey=surya7-msd_first-app
+            -Dsonar.organization=surya7-msd
+            -Dsonar.go.coverage.reportPaths=coverage.out
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
