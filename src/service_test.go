@@ -14,7 +14,13 @@ func TestNewUser(t *testing.T) {
 		args args
 		want *User
 	}{
-		// TODO: Add test cases.
+		{
+			name: "success",
+			args: args{
+				u: &User{Name: "surya", Id: "1", Age: 24},
+			},
+			want: &User{Name: "surya", Id: "1", Age: 24},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
